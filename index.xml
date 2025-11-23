@@ -1,0 +1,745 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Azer Tech</title>
+<link>https://Gustavo331201.github.io/AzerTech/</link>
+<atom:link href="https://Gustavo331201.github.io/AzerTech/index.xml" rel="self" type="application/rss+xml"/>
+<description>A blog built with Quarto</description>
+<generator>quarto-1.8.26</generator>
+<lastBuildDate>Sat, 22 Nov 2025 03:00:00 GMT</lastBuildDate>
+<item>
+  <title>Regressão Linear</title>
+  <dc:creator>Gustavo Henrique</dc:creator>
+  <link>https://Gustavo331201.github.io/AzerTech/posts/Regressão Linear/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p><img src="https://Gustavo331201.github.io/AzerTech/posts/Regressão Linear/capa linear.jpg" class="img-fluid"></p>
+<hr>
+<section id="regressão-linear-em-python-entendendo-o-código-passo-a-passo" class="level1">
+<h1>Regressão Linear em Python: Entendendo o Código Passo a Passo</h1>
+<p>A regressão linear é uma das técnicas mais simples e importantes quando queremos entender a relação entre duas variáveis. No exemplo abaixo, vamos analisar como <strong>anos de estudo</strong> influenciam o <strong>salário</strong> usando Python.</p>
+<p>A seguir está o código completo e uma explicação bem fácil de entender sobre o que ele faz.</p>
+<hr>
+<section id="importando-as-bibliotecas" class="level2">
+<h2 class="anchored" data-anchor-id="importando-as-bibliotecas">1. Importando as bibliotecas</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> pandas <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> pd</span>
+<span id="cb1-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> numpy <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> np</span>
+<span id="cb1-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> matplotlib.pyplot <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> plt</span></code></pre></div></div>
+<p>Aqui carregamos três ferramentas essenciais:</p>
+<ul>
+<li><strong>NumPy</strong>: para trabalhar com matemática e vetores.</li>
+<li><strong>Pandas</strong>: não é essencial neste código, mas é importado para caso fosse usado em manipulações de dados.</li>
+<li><strong>Matplotlib</strong>: para gerar os gráficos.</li>
+</ul>
+<hr>
+</section>
+<section id="carregando-os-dados-x-anos-de-estudo-y-salário" class="level2">
+<h2 class="anchored" data-anchor-id="carregando-os-dados-x-anos-de-estudo-y-salário">2. Carregando os dados (X = anos de estudo, y = salário)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">try</span>:</span>
+<span id="cb2-2">    valores_x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.loadtxt(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'X.txt'</span>)</span>
+<span id="cb2-3">    valores_y <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.loadtxt(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'y.txt'</span>)</span>
+<span id="cb2-4"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">except</span>:</span>
+<span id="cb2-5">    valores_x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.array([<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">9</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">12</span>])</span>
+<span id="cb2-6">    valores_y <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.array([<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1200</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1400</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1700</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2100</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2500</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2900</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3400</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3800</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4200</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5000</span>])</span></code></pre></div></div>
+<p>O código tenta ler os dados de <strong>dois arquivos externos</strong>:</p>
+<ul>
+<li><code>X.txt</code> (anos de estudo)</li>
+<li><code>y.txt</code> (salários)</li>
+</ul>
+<hr>
+</section>
+<section id="montando-a-matriz-da-regressão-linear" class="level2">
+<h2 class="anchored" data-anchor-id="montando-a-matriz-da-regressão-linear">3. Montando a matriz da regressão linear</h2>
+<p>A fórmula da regressão linear é:</p>
+<p>[ y = a + bX]</p>
+<p>Para encontrar os coeficientes <strong>a (intercepto)</strong> e <strong>b (inclinação)</strong>, o código aplica a solução matemática conhecida como <em>equação normal</em>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">X_matriz <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.column_stack((np.ones(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(valores_x)), valores_x))</span>
+<span id="cb3-2">Xt <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> X_matriz.T</span></code></pre></div></div>
+<p>Explicando:</p>
+<ul>
+<li>Criamos uma matriz com <strong>1s</strong> (para o intercepto) e com os valores de X.</li>
+<li>Calculamos a matriz transposta.</li>
+</ul>
+<p>A matriz final tem esta cara:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>1</th>
+<th>X</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="calculando-os-coeficientes-a-e-b" class="level2">
+<h2 class="anchored" data-anchor-id="calculando-os-coeficientes-a-e-b">4. Calculando os coeficientes (a e b)</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1">XtX_inv <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.linalg.inv(np.dot(Xt, X_matriz))</span>
+<span id="cb4-2">beta <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.dot(XtX_inv, np.dot(Xt, valores_y))</span>
+<span id="cb4-3">a, b <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> beta[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>], beta[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]</span></code></pre></div></div>
+<p>Este é o coração matemático do cálculo.</p>
+<p>Ele aplica a fórmula:</p>
+<p>[ = (X^T X)^{-1} X^T y]</p>
+<p>O resultado é um vetor <strong>beta</strong>, onde:</p>
+<ul>
+<li><code>beta[0]</code> é o intercepto (<strong>a</strong>)</li>
+<li><code>beta[1]</code> é a inclinação (<strong>b</strong>)</li>
+</ul>
+<hr>
+</section>
+<section id="plotando-o-gráfico" class="level2">
+<h2 class="anchored" data-anchor-id="plotando-o-gráfico">5. Plotando o gráfico</h2>
+<p>Agora vem a parte visual!</p>
+<section id="pontos-reais" class="level3">
+<h3 class="anchored" data-anchor-id="pontos-reais">Pontos reais</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1">plt.scatter(valores_x, valores_y, color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'yellow'</span>, s<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50</span>, label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'Dados Reais'</span>)</span></code></pre></div></div>
+<p>Desenha os pontos originais (anos de estudo × salário).</p>
+</section>
+<section id="linha-da-regressão" class="level3">
+<h3 class="anchored" data-anchor-id="linha-da-regressão">Linha da regressão</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1">plt.plot(valores_x, a <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> b <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> valores_x, color<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'red'</span>, linewidth<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'Regressão Linear'</span>)</span></code></pre></div></div>
+<p>Desenha a linha que melhor explica a relação entre X e Y.</p>
+</section>
+<section id="ajustes-finais-do-gráfico" class="level3">
+<h3 class="anchored" data-anchor-id="ajustes-finais-do-gráfico">Ajustes finais do gráfico</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1">plt.title(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"Regressão Linear (Intercepto=</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>a<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:.2f}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">, Inclinação=</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>b<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:.2f}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">)"</span>)</span>
+<span id="cb7-2">plt.xlabel(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Anos de Estudo"</span>)</span>
+<span id="cb7-3">plt.ylabel(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Salário"</span>)</span>
+<span id="cb7-4">plt.legend()</span>
+<span id="cb7-5">plt.grid(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>, alpha<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.3</span>)</span>
+<span id="cb7-6">plt.show()</span></code></pre></div></div>
+<p>Essas linhas deixam o gráfico mais apresentável:</p>
+<ul>
+<li>título</li>
+<li>rótulos</li>
+<li>legenda</li>
+<li>grade leve</li>
+<li>exibição final</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="resultado" class="level2">
+<h2 class="anchored" data-anchor-id="resultado">Resultado</h2>
+<p>O código gera um gráfico mostrando:</p>
+<ul>
+<li><strong>Os dados reais</strong>, em pontos azuis</li>
+<li><strong>A linha de regressão</strong>, em vermelho</li>
+<li>Os valores calculados de <strong>intercepto</strong> e <strong>inclinação</strong></li>
+</ul>
+<p>Com isso, fica fácil ver como o salário tende a crescer conforme aumentam os anos de estudo.</p>
+<hr>
+<p><img src="https://Gustavo331201.github.io/AzerTech/posts/Regressão Linear/linear1.png" class="img-fluid"></p>
+<p>Arquivo com o <a href="linear.py">codigo pronto</a></p>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>news</category>
+  <category>code</category>
+  <category>analysis</category>
+  <guid>https://Gustavo331201.github.io/AzerTech/posts/Regressão Linear/</guid>
+  <pubDate>Sat, 22 Nov 2025 03:00:00 GMT</pubDate>
+  <media:content url="https://Gustavo331201.github.io/AzerTech/posts/Regressão Linear/capa linear.jpg" medium="image" type="image/jpeg"/>
+</item>
+<item>
+  <title>Monitoramento de Ônibus</title>
+  <dc:creator>Gustavo Henrique</dc:creator>
+  <link>https://Gustavo331201.github.io/AzerTech/posts/Monitoramento/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>Este artigo detalha a arquitetura e as etapas fundamentais para desenvolver um sistema que rastreia a localização exata e as paradas de ônibus utilizando o python.</p>
+<p><img src="https://Gustavo331201.github.io/AzerTech/posts/Monitoramento/Monitoramento de Onibus.png" class="img-fluid"></p>
+<hr>
+<section id="como-consultar-as-paradas-de-ônibus-da-sptrans-e-gerar-um-mapa-interativo-com-python" class="level1">
+<h1>Como consultar as paradas de ônibus da SPTrans e gerar um mapa interativo com Python</h1>
+<p>Neste artigo, vamos explicar um pequeno projeto em Python que:</p>
+<ol type="1">
+<li><strong>Autentica na API Olho Vivo (SPTrans)</strong></li>
+<li><strong>Busca todas as paradas de uma linha específica</strong></li>
+<li><strong>Gera um mapa interativo com as localizações usando Folium</strong></li>
+</ol>
+<p>Vamos entender passo a passo.</p>
+<hr>
+</section>
+<section id="carregando-variável-de-ambiente-e-fazendo-login" class="level1">
+<h1>1. Carregando variável de ambiente e fazendo login</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> os</span>
+<span id="cb1-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> requests</span>
+<span id="cb1-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> dotenv <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> load_dotenv</span>
+<span id="cb1-4"></span>
+<span id="cb1-5">load_dotenv(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">".env"</span>)</span></code></pre></div></div>
+<p>A API da SPTrans exige um <strong>token de autenticação</strong>. Para não expor o token diretamente no código, ele é salvo dentro do arquivo <code>.env</code>:</p>
+<pre><code>SPTRANS_TOKEN=seu_token_aqui</code></pre>
+<p>A função <code>load_dotenv()</code> carrega essa variável para dentro da aplicação.</p>
+<hr>
+<section id="criando-a-sessão-e-autenticando" class="level2">
+<h2 class="anchored" data-anchor-id="criando-a-sessão-e-autenticando">Criando a sessão e autenticando</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">s <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> requests.Session()</span>
+<span id="cb3-2">res <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> s.post(</span>
+<span id="cb3-3">    <span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"http://api.olhovivo.sptrans.com.br/v2.1/Login/Autenticar?token=</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>os<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>getenv(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'SPTRANS_TOKEN'</span>)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span></span>
+<span id="cb3-4">)</span></code></pre></div></div>
+<p>Aqui acontece o processo de autenticação:</p>
+<ul>
+<li>É criada uma <strong>sessão</strong> (<code>requests.Session()</code>), que mantém cookies e persistência entre requisições.</li>
+<li>A API usa um método curioso: você faz um <strong>POST</strong> apenas com o token na URL.</li>
+<li>Se o token estiver correto, a sessão fica autenticada e pronta para usar.</li>
+</ul>
+<p>Esse passo é obrigatório para conseguir consultar qualquer recurso da API Olho Vivo.</p>
+<hr>
+</section>
+</section>
+<section id="consultando-as-paradas-de-uma-linha" class="level1">
+<h1>2. Consultando as paradas de uma linha</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1">res <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> s.get(</span>
+<span id="cb4-2">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"http://api.olhovivo.sptrans.com.br/v2.1/Parada/BuscarParadasPorLinha?codigoLinha=2507"</span></span>
+<span id="cb4-3">)</span>
+<span id="cb4-4">paradas <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> res.json()</span>
+<span id="cb4-5"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(paradas)</span></code></pre></div></div>
+<p>Aqui:</p>
+<ul>
+<li><code>2507</code> é o código da linha desejada</li>
+<li>O endpoint retorna uma lista de paradas contendo:</li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Campo</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>px</code></td>
+<td>Longitude</td>
+</tr>
+<tr class="even">
+<td><code>py</code></td>
+<td>Latitude</td>
+</tr>
+<tr class="odd">
+<td><code>np</code></td>
+<td>Nome da parada</td>
+</tr>
+</tbody>
+</table>
+<p><code>paradas</code> é uma lista de dicionários, cada um representando uma parada de ônibus.</p>
+<p>Exemplo simplificado:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1">[</span>
+<span id="cb5-2">  {<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"px"</span>: <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">46.698</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"py"</span>: <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">23.533</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"np"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Av. Paulista, 1000"</span>},</span>
+<span id="cb5-3">  ...</span>
+<span id="cb5-4">]</span></code></pre></div></div>
+<p>Você pode então usar esses dados para gerar um mapa.</p>
+<hr>
+</section>
+<section id="criando-um-mapa-com-folium" class="level1">
+<h1>3. Criando um mapa com Folium</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> folium <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> Map, Marker</span>
+<span id="cb6-2"></span>
+<span id="cb6-3">m <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Map(location<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[paradas[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"py"</span>], paradas[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"px"</span>]], zoom_start<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">14</span>)</span></code></pre></div></div>
+<p>O mapa é inicializado usando a <strong>quarta parada da lista</strong> como posição central.</p>
+<ul>
+<li><code>paradas[3]["py"]</code> → latitude</li>
+<li><code>paradas[3]["px"]</code> → longitude</li>
+<li><code>zoom_start=14</code> → zoom típico para visualizar bairros</li>
+</ul>
+<hr>
+<section id="adicionando-marcadores-no-mapa" class="level2">
+<h2 class="anchored" data-anchor-id="adicionando-marcadores-no-mapa">Adicionando marcadores no mapa</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> paradas:</span>
+<span id="cb7-2">    Marker(location<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[i[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"py"</span>], i[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"px"</span>]], popup<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>i[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"np"</span>]).add_to(m)</span></code></pre></div></div>
+<p>Para cada parada, o código:</p>
+<ol type="1">
+<li>Cria um marcador (<code>Marker</code>)</li>
+<li>Usa latitude e longitude</li>
+<li>Adiciona um <em>popup</em> com o nome da parada</li>
+</ol>
+<p>Assim, cada parada aparece com um clique do usuário.</p>
+<hr>
+</section>
+<section id="exibindo-o-mapa-no-navegador" class="level2">
+<h2 class="anchored" data-anchor-id="exibindo-o-mapa-no-navegador">Exibindo o mapa no navegador</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1">m.show_in_browser()</span></code></pre></div></div>
+<p>O Folium gera um arquivo HTML interativo e abre automaticamente no navegador padrão.</p>
+<hr>
+<p><img src="https://Gustavo331201.github.io/AzerTech/posts/Monitoramento/mapa.png" class="img-fluid"></p>
+<p>Arquivo com o <a href="autent.py">codigo pronto</a></p>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>news</category>
+  <category>code</category>
+  <category>analysis</category>
+  <guid>https://Gustavo331201.github.io/AzerTech/posts/Monitoramento/</guid>
+  <pubDate>Thu, 20 Nov 2025 03:00:00 GMT</pubDate>
+  <media:content url="https://Gustavo331201.github.io/AzerTech/posts/Monitoramento/Monitoramento de Onibus.png" medium="image" type="image/png" height="144" width="144"/>
+</item>
+<item>
+  <title>Cotação do Dolar</title>
+  <dc:creator>Gustavo Henrique</dc:creator>
+  <link>https://Gustavo331201.github.io/AzerTech/posts/Dolar Cotação/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>Neste post, vamos apresentar um programa incrível focado em uma funcionalidade super útil: consultar a cotação do Dólar Americano (USD) contra o Real Brasileiro (BRL) em qualquer data específica.</p>
+<p><img src="https://Gustavo331201.github.io/AzerTech/posts/Dolar Cotação/Dolar.jpeg" class="img-fluid"></p>
+<p>Neste artigo, vamos analisar passo a passo um código em Python que consulta a API oficial do Banco Central para obter as cotações do dólar em um determinado mês — e, ao final, gera um gráfico bem apresentado usando Plotly.</p>
+<p>Você vai entender como funcionam:</p>
+<ul>
+<li>Manipulação de datas</li>
+<li>Requisições HTTP</li>
+<li>Tratamento da resposta JSON</li>
+<li>Preenchimento de dias sem cotação (como finais de semana e feriados)</li>
+<li>Criação de gráficos interativos</li>
+</ul>
+<p>Vamos ao código — e depois à explicação detalhada.</p>
+<hr>
+<p>A função <code>f(periodo)</code> recebe uma string no formato <strong>MMYYYY</strong>, por exemplo <code>"022011"</code> (fevereiro de 2011). Com isso, ela:</p>
+<ol type="1">
+<li>Identifica o primeiro e o último dia do mês.</li>
+<li>Consulta a API oficial <strong>PTAX do Banco Central</strong>.</li>
+<li>Converte as cotações retornadas em um dicionário organizado.</li>
+<li>Preenche automaticamente os dias sem cotação usando a última cotação conhecida.</li>
+<li>Gera um <strong>gráfico interativo</strong> com as cotações de compra e venda.</li>
+</ol>
+<hr>
+<section id="interpretando-o-período-informado" class="level1">
+<h1>1. Interpretando o período informado</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1">first_date <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> datetime.strptime(periodo, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"%m%Y"</span>)</span>
+<span id="cb1-2">last_date <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> first_date.replace(</span>
+<span id="cb1-3">    day<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>calendar.monthrange(first_date.year, first_date.month)[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]</span>
+<span id="cb1-4">)</span></code></pre></div></div>
+<p>Aqui:</p>
+<ul>
+<li><code>first_date</code> → primeiro dia do mês</li>
+<li><code>last_date</code> → último dia do mesmo mês (usando <code>calendar.monthrange</code>)</li>
+</ul>
+<p>Ou seja, com <code>"022011"</code>:</p>
+<ul>
+<li>first_date = 01/02/2011</li>
+<li>last_date = 28/02/2011</li>
+</ul>
+<hr>
+</section>
+<section id="montando-a-url-da-api-do-banco-central" class="level1">
+<h1>2. Montando a URL da API do Banco Central</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1">url <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/...</span></span></code></pre></div></div>
+<p>A API PTAX exige datas no formato <strong>MM-DD-YYYY</strong>, então fazemos:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">data_inicial <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> first_date.strftime(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"%m-</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%d</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">-%Y"</span>)</span>
+<span id="cb3-2">data_final <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> last_date.strftime(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"%m-</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%d</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">-%Y"</span>)</span></code></pre></div></div>
+<p>A URL incluí essas datas para filtrar as cotações somente do período desejado.</p>
+<hr>
+</section>
+<section id="fazendo-a-requisição-http" class="level1">
+<h1>3. Fazendo a requisição HTTP</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1">response <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> requests.get(url)</span>
+<span id="cb4-2">response.raise_for_status()</span>
+<span id="cb4-3">data <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> response.json()</span></code></pre></div></div>
+<p>O código tenta:</p>
+<ul>
+<li>Fazer a requisição</li>
+<li>Confirmar que não houve erro</li>
+<li>Converter a resposta para JSON</li>
+</ul>
+<p>Se algo der errado, o usuário é avisado.</p>
+<hr>
+</section>
+<section id="organizando-as-cotações-retornadas" class="level1">
+<h1>4. Organizando as cotações retornadas</h1>
+<p>A API retorna vários registros com:</p>
+<ul>
+<li>Data/hora da cotação</li>
+<li>Valor de compra</li>
+<li>Valor de venda</li>
+</ul>
+<p>O código transforma isso em um dicionário mais fácil de usar:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1">cotacoes_dict[data_cotacao.date()] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb5-2">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'compra'</span>: cotacao[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'cotacaoCompra'</span>],</span>
+<span id="cb5-3">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'venda'</span>: cotacao[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'cotacaoVenda'</span>]</span>
+<span id="cb5-4">}</span></code></pre></div></div>
+<p>Assim, fica fácil consultar a cotação de qualquer dia.</p>
+<hr>
+</section>
+<section id="lidando-com-dias-sem-cotação" class="level1">
+<h1>5. Lidando com dias sem cotação</h1>
+<p>Nem todo dia tem cotação — por exemplo, sábados, domingos e feriados.</p>
+<p>Para manter o gráfico contínuo (sem buracos), o código reutiliza a <strong>última cotação existente</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> date_key <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> cotacoes_dict:</span>
+<span id="cb6-2">    ultima_cotacao <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> cotacoes_dict[date_key]</span>
+<span id="cb6-3"></span>
+<span id="cb6-4"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> ultima_cotacao:</span>
+<span id="cb6-5">    datas.append(current_date)</span>
+<span id="cb6-6">    valores_compra.append(ultima_cotacao[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'compra'</span>])</span>
+<span id="cb6-7">    valores_venda.append(ultima_cotacao[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'venda'</span>])</span></code></pre></div></div>
+<p>Isso é conhecido como <strong>forward fill</strong>: se não houver cotação no dia atual, usa-se o valor do último dia útil.</p>
+<hr>
+</section>
+<section id="criando-o-gráfico-interativo-com-plotly" class="level1">
+<h1>6. Criando o gráfico interativo com Plotly</h1>
+<p>Usando <code>plotly.graph_objects</code>, o código cria duas curvas:</p>
+<ul>
+<li>Linha azul — cotação de compra</li>
+<li>Linha vermelha — cotação de venda</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1">fig.add_trace(go.Scatter(...))</span>
+<span id="cb7-2">fig.update_layout(...)</span></code></pre></div></div>
+<p>O gráfico vem com:</p>
+<p>✔ Interatividade (hover) ✔ Marcadores ✔ Estilo claro ✔ Eixo X com datas formatadas</p>
+<p>No fim:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> fig</span></code></pre></div></div>
+<p>E o gráfico aparece na tela com:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1">fig.show()</span></code></pre></div></div>
+<hr>
+</section>
+<section id="resultado-final" class="level1">
+<h1>Resultado final</h1>
+<p>A função gera automaticamente um gráfico completo, limpo e informativo como este:</p>
+<ul>
+<li>Datas no eixo X</li>
+<li>Valor do dólar em reais</li>
+<li>Linhas suaves com marcações</li>
+<li>Interação ao passar o mouse</li>
+</ul>
+<hr>
+</section>
+<section id="conclusão" class="level1">
+<h1>Conclusão</h1>
+<p>Este código mostra como combinar:</p>
+<ul>
+<li><strong>APIs públicas</strong></li>
+<li><strong>Tratamento de datas</strong></li>
+<li><strong>Processamento de dados</strong></li>
+<li><strong>Visualização com Plotly</strong></li>
+</ul>
+<p><img src="https://Gustavo331201.github.io/AzerTech/posts/Dolar Cotação/newplot.png" class="img-fluid"></p>
+<p>Arquivo com o <a href="dolar.py">codigo pronto</a></p>
+
+
+</section>
+
+ ]]></description>
+  <category>news</category>
+  <guid>https://Gustavo331201.github.io/AzerTech/posts/Dolar Cotação/</guid>
+  <pubDate>Wed, 19 Nov 2025 03:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>

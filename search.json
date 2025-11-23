@@ -1,0 +1,93 @@
+[
+  {
+    "objectID": "posts/Regressão Linear/index.html#importando-as-bibliotecas",
+    "href": "posts/Regressão Linear/index.html#importando-as-bibliotecas",
+    "title": "Regressão Linear",
+    "section": "1. Importando as bibliotecas",
+    "text": "1. Importando as bibliotecas\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nAqui carregamos três ferramentas essenciais:\n\nNumPy: para trabalhar com matemática e vetores.\nPandas: não é essencial neste código, mas é importado para caso fosse usado em manipulações de dados.\nMatplotlib: para gerar os gráficos."
+  },
+  {
+    "objectID": "posts/Regressão Linear/index.html#carregando-os-dados-x-anos-de-estudo-y-salário",
+    "href": "posts/Regressão Linear/index.html#carregando-os-dados-x-anos-de-estudo-y-salário",
+    "title": "Regressão Linear",
+    "section": "2. Carregando os dados (X = anos de estudo, y = salário)",
+    "text": "2. Carregando os dados (X = anos de estudo, y = salário)\ntry:\n    valores_x = np.loadtxt('X.txt')\n    valores_y = np.loadtxt('y.txt')\nexcept:\n    valores_x = np.array([2, 3, 4, 5, 6, 7, 8, 9, 10, 12])\n    valores_y = np.array([1200, 1400, 1700, 2100, 2500, 2900, 3400, 3800, 4200, 5000])\nO código tenta ler os dados de dois arquivos externos:\n\nX.txt (anos de estudo)\ny.txt (salários)"
+  },
+  {
+    "objectID": "posts/Regressão Linear/index.html#montando-a-matriz-da-regressão-linear",
+    "href": "posts/Regressão Linear/index.html#montando-a-matriz-da-regressão-linear",
+    "title": "Regressão Linear",
+    "section": "3. Montando a matriz da regressão linear",
+    "text": "3. Montando a matriz da regressão linear\nA fórmula da regressão linear é:\n[ y = a + bX]\nPara encontrar os coeficientes a (intercepto) e b (inclinação), o código aplica a solução matemática conhecida como equação normal.\nX_matriz = np.column_stack((np.ones(len(valores_x)), valores_x))\nXt = X_matriz.T\nExplicando:\n\nCriamos uma matriz com 1s (para o intercepto) e com os valores de X.\nCalculamos a matriz transposta.\n\nA matriz final tem esta cara:\n\n\n\n1\nX\n\n\n\n\n1\n2\n\n\n1\n3\n\n\n…\n…"
+  },
+  {
+    "objectID": "posts/Regressão Linear/index.html#calculando-os-coeficientes-a-e-b",
+    "href": "posts/Regressão Linear/index.html#calculando-os-coeficientes-a-e-b",
+    "title": "Regressão Linear",
+    "section": "4. Calculando os coeficientes (a e b)",
+    "text": "4. Calculando os coeficientes (a e b)\nXtX_inv = np.linalg.inv(np.dot(Xt, X_matriz))\nbeta = np.dot(XtX_inv, np.dot(Xt, valores_y))\na, b = beta[0], beta[1]\nEste é o coração matemático do cálculo.\nEle aplica a fórmula:\n[ = (X^T X)^{-1} X^T y]\nO resultado é um vetor beta, onde:\n\nbeta[0] é o intercepto (a)\nbeta[1] é a inclinação (b)"
+  },
+  {
+    "objectID": "posts/Regressão Linear/index.html#plotando-o-gráfico",
+    "href": "posts/Regressão Linear/index.html#plotando-o-gráfico",
+    "title": "Regressão Linear",
+    "section": "5. Plotando o gráfico",
+    "text": "5. Plotando o gráfico\nAgora vem a parte visual!\n\nPontos reais\nplt.scatter(valores_x, valores_y, color='yellow', s=50, label='Dados Reais')\nDesenha os pontos originais (anos de estudo × salário).\n\n\nLinha da regressão\nplt.plot(valores_x, a + b * valores_x, color='red', linewidth=2, label='Regressão Linear')\nDesenha a linha que melhor explica a relação entre X e Y.\n\n\nAjustes finais do gráfico\nplt.title(f\"Regressão Linear (Intercepto={a:.2f}, Inclinação={b:.2f})\")\nplt.xlabel(\"Anos de Estudo\")\nplt.ylabel(\"Salário\")\nplt.legend()\nplt.grid(True, alpha=0.3)\nplt.show()\nEssas linhas deixam o gráfico mais apresentável:\n\ntítulo\nrótulos\nlegenda\ngrade leve\nexibição final"
+  },
+  {
+    "objectID": "posts/Regressão Linear/index.html#resultado",
+    "href": "posts/Regressão Linear/index.html#resultado",
+    "title": "Regressão Linear",
+    "section": "Resultado",
+    "text": "Resultado\nO código gera um gráfico mostrando:\n\nOs dados reais, em pontos azuis\nA linha de regressão, em vermelho\nOs valores calculados de intercepto e inclinação\n\nCom isso, fica fácil ver como o salário tende a crescer conforme aumentam os anos de estudo.\n\n\nArquivo com o codigo pronto"
+  },
+  {
+    "objectID": "posts/Dolar Cotação/index.html",
+    "href": "posts/Dolar Cotação/index.html",
+    "title": "Cotação do Dolar",
+    "section": "",
+    "text": "Neste post, vamos apresentar um programa incrível focado em uma funcionalidade super útil: consultar a cotação do Dólar Americano (USD) contra o Real Brasileiro (BRL) em qualquer data específica.\n\nNeste artigo, vamos analisar passo a passo um código em Python que consulta a API oficial do Banco Central para obter as cotações do dólar em um determinado mês — e, ao final, gera um gráfico bem apresentado usando Plotly.\nVocê vai entender como funcionam:\n\nManipulação de datas\nRequisições HTTP\nTratamento da resposta JSON\nPreenchimento de dias sem cotação (como finais de semana e feriados)\nCriação de gráficos interativos\n\nVamos ao código — e depois à explicação detalhada.\n\nA função f(periodo) recebe uma string no formato MMYYYY, por exemplo \"022011\" (fevereiro de 2011). Com isso, ela:\n\nIdentifica o primeiro e o último dia do mês.\nConsulta a API oficial PTAX do Banco Central.\nConverte as cotações retornadas em um dicionário organizado.\nPreenche automaticamente os dias sem cotação usando a última cotação conhecida.\nGera um gráfico interativo com as cotações de compra e venda.\n\n\n\n1. Interpretando o período informado\nfirst_date = datetime.strptime(periodo, \"%m%Y\")\nlast_date = first_date.replace(\n    day=calendar.monthrange(first_date.year, first_date.month)[1]\n)\nAqui:\n\nfirst_date → primeiro dia do mês\nlast_date → último dia do mesmo mês (usando calendar.monthrange)\n\nOu seja, com \"022011\":\n\nfirst_date = 01/02/2011\nlast_date = 28/02/2011\n\n\n\n\n2. Montando a URL da API do Banco Central\nurl = f\"https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/...\nA API PTAX exige datas no formato MM-DD-YYYY, então fazemos:\ndata_inicial = first_date.strftime(\"%m-%d-%Y\")\ndata_final = last_date.strftime(\"%m-%d-%Y\")\nA URL incluí essas datas para filtrar as cotações somente do período desejado.\n\n\n\n3. Fazendo a requisição HTTP\nresponse = requests.get(url)\nresponse.raise_for_status()\ndata = response.json()\nO código tenta:\n\nFazer a requisição\nConfirmar que não houve erro\nConverter a resposta para JSON\n\nSe algo der errado, o usuário é avisado.\n\n\n\n4. Organizando as cotações retornadas\nA API retorna vários registros com:\n\nData/hora da cotação\nValor de compra\nValor de venda\n\nO código transforma isso em um dicionário mais fácil de usar:\ncotacoes_dict[data_cotacao.date()] = {\n    'compra': cotacao['cotacaoCompra'],\n    'venda': cotacao['cotacaoVenda']\n}\nAssim, fica fácil consultar a cotação de qualquer dia.\n\n\n\n5. Lidando com dias sem cotação\nNem todo dia tem cotação — por exemplo, sábados, domingos e feriados.\nPara manter o gráfico contínuo (sem buracos), o código reutiliza a última cotação existente:\nif date_key in cotacoes_dict:\n    ultima_cotacao = cotacoes_dict[date_key]\n\nif ultima_cotacao:\n    datas.append(current_date)\n    valores_compra.append(ultima_cotacao['compra'])\n    valores_venda.append(ultima_cotacao['venda'])\nIsso é conhecido como forward fill: se não houver cotação no dia atual, usa-se o valor do último dia útil.\n\n\n\n6. Criando o gráfico interativo com Plotly\nUsando plotly.graph_objects, o código cria duas curvas:\n\nLinha azul — cotação de compra\nLinha vermelha — cotação de venda\n\nfig.add_trace(go.Scatter(...))\nfig.update_layout(...)\nO gráfico vem com:\n✔ Interatividade (hover) ✔ Marcadores ✔ Estilo claro ✔ Eixo X com datas formatadas\nNo fim:\nreturn fig\nE o gráfico aparece na tela com:\nfig.show()\n\n\n\nResultado final\nA função gera automaticamente um gráfico completo, limpo e informativo como este:\n\nDatas no eixo X\nValor do dólar em reais\nLinhas suaves com marcações\nInteração ao passar o mouse\n\n\n\n\nConclusão\nEste código mostra como combinar:\n\nAPIs públicas\nTratamento de datas\nProcessamento de dados\nVisualização com Plotly\n\n\nArquivo com o codigo pronto"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "Sobre",
+    "section": "",
+    "text": "Bem-vindo ao Azer Tech! Seu destino obrigatório para transformar teoria em habilidade real no universo da programação. Não importa se você está dando os primeiros passos ou se já é um desenvolvedor experiente, nosso foco é um só: prática, prática e mais prática!"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Descubra",
+    "section": "",
+    "text": "Regressão Linear\n\n\n\nnews\n\ncode\n\nanalysis\n\n\n\n\n\n\n\n\n\nNov 22, 2025\n\n\nGustavo Henrique\n\n\n\n\n\n\n\n\n\n\n\n\nMonitoramento de Ônibus\n\n\n\nnews\n\ncode\n\nanalysis\n\n\n\n\n\n\n\n\n\nNov 20, 2025\n\n\nGustavo Henrique\n\n\n\n\n\n\n\n\n\n\n\n\nCotação do Dolar\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nNov 19, 2025\n\n\nGustavo Henrique\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/Monitoramento/index.html",
+    "href": "posts/Monitoramento/index.html",
+    "title": "Monitoramento de Ônibus",
+    "section": "",
+    "text": "Este artigo detalha a arquitetura e as etapas fundamentais para desenvolver um sistema que rastreia a localização exata e as paradas de ônibus utilizando o python."
+  },
+  {
+    "objectID": "posts/Monitoramento/index.html#criando-a-sessão-e-autenticando",
+    "href": "posts/Monitoramento/index.html#criando-a-sessão-e-autenticando",
+    "title": "Monitoramento de Ônibus",
+    "section": "Criando a sessão e autenticando",
+    "text": "Criando a sessão e autenticando\ns = requests.Session()\nres = s.post(\n    f\"http://api.olhovivo.sptrans.com.br/v2.1/Login/Autenticar?token={os.getenv('SPTRANS_TOKEN')}\"\n)\nAqui acontece o processo de autenticação:\n\nÉ criada uma sessão (requests.Session()), que mantém cookies e persistência entre requisições.\nA API usa um método curioso: você faz um POST apenas com o token na URL.\nSe o token estiver correto, a sessão fica autenticada e pronta para usar.\n\nEsse passo é obrigatório para conseguir consultar qualquer recurso da API Olho Vivo."
+  },
+  {
+    "objectID": "posts/Monitoramento/index.html#adicionando-marcadores-no-mapa",
+    "href": "posts/Monitoramento/index.html#adicionando-marcadores-no-mapa",
+    "title": "Monitoramento de Ônibus",
+    "section": "Adicionando marcadores no mapa",
+    "text": "Adicionando marcadores no mapa\nfor i in paradas:\n    Marker(location=[i[\"py\"], i[\"px\"]], popup=i[\"np\"]).add_to(m)\nPara cada parada, o código:\n\nCria um marcador (Marker)\nUsa latitude e longitude\nAdiciona um popup com o nome da parada\n\nAssim, cada parada aparece com um clique do usuário."
+  },
+  {
+    "objectID": "posts/Monitoramento/index.html#exibindo-o-mapa-no-navegador",
+    "href": "posts/Monitoramento/index.html#exibindo-o-mapa-no-navegador",
+    "title": "Monitoramento de Ônibus",
+    "section": "Exibindo o mapa no navegador",
+    "text": "Exibindo o mapa no navegador\nm.show_in_browser()\nO Folium gera um arquivo HTML interativo e abre automaticamente no navegador padrão.\n\n\nArquivo com o codigo pronto"
+  }
+]
